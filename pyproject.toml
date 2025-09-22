@@ -1,0 +1,30 @@
+[project]
+name = "pyreq"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "blant",email = "ckotch47@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "httpx (>=0.28.1,<0.29.0)",
+    "pyyaml (>=6.0.2,<7.0.0)",
+    "typer (>=0.19.1,<0.20.0)",
+    "python-dotenv (>=1.1.1,<2.0.0)"
+]
+
+[tool.poetry]
+name = "pyreq"
+version = "0.1.0"
+description = ""
+authors = ["Nikita Lyubimov <ckotch47@gmail.com>"]
+readme = "README.md"
+packages = [{include = "*.py"}]
+
+[tool.poetry.scripts]
+pyreq = "pyreq:main"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

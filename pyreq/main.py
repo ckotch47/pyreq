@@ -3,10 +3,11 @@ import yaml
 import httpx
 import re
 from json import JSONDecodeError
-
+from rich.console import Console
+from rich.json import JSON
 from .resolve_env_in_yaml import load_and_resolve_env
 
-
+console = Console()
 class PyReq:
     def __init__(self, path_to_yaml, path_to_env):
         self.route_config = None
@@ -65,21 +66,26 @@ class PyReq:
         except Exception as e:
             print(e)
             exit(0)
-
+    def replace_body_into_var(self, body):
+        for i in body.keys():
+            if body[i].startswith('$_'):
+                body[i] = self.var[body[i]]
+        return body
+    
     def request(self, route_name):
         route_config = self.config['collection'][route_name]
 
         r = httpx.request(
             method=route_config.get('method'),
             url= self.replace_url_into_var(route_config['url']),
-            json=route_config.get('body', {}),
+            json=self.replace_body_into_var(route_config['body']),
             headers=self.get_header(self.env, route_config, self.var),
-            params=route_config.get('query')
+            params=self.replace_body_into_var(route_config.get('query')),
         )
 
         try:
-            print(r.status_code)
-            print(json.dumps(r.json(), indent=4))
+            console.print(r.status_code)
+            console.print(JSON(json.dumps(r.json())))
         except JSONDecodeError:
             print(r.status_code, r.text)
 

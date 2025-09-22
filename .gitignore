@@ -1,3 +1,10 @@
 __pycache__
 .idea
 .venv
+.env
+.env.*
+pre_request.
+/*/__pycache__
+RELEASE.md
+dist/*
+test.yml

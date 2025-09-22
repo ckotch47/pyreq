@@ -3,7 +3,6 @@ import re
 import yaml
 from dotenv import load_dotenv
 
-load_dotenv()
 
 def replace_env_vars(text):
     pattern = r'\$\{([^}]+)\}'
@@ -19,7 +18,8 @@ def replace_env_vars(text):
 
     return re.sub(pattern, replace_match, text)
 
-def load_and_resolve_env(path):
+def load_and_resolve_env(path, path_env):
+    load_dotenv(path_env)
     yaml_content = open(path, "r", encoding="utf-8").read()
     resolved_content = replace_env_vars(yaml_content)
     try:

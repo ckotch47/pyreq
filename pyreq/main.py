@@ -67,10 +67,13 @@ class PyReq:
             print(e)
             exit(0)
     def replace_body_into_var(self, body):
-        for i in body.keys():
-            if body[i].startswith('$_'):
-                body[i] = self.var[body[i]]
-        return body
+        try:
+            for i in body.keys():
+                if body[i].startswith('$_'):
+                    body[i] = self.var[body[i]]
+            return body
+        except:
+            return None
     
     def request(self, route_name):
         route_config = self.config['collection'][route_name]
